@@ -1,18 +1,43 @@
-const input_textarea = document.querySelector("#input-textarea")
-const word_count = document.querySelector("#word_count")
-const charac_count = document.querySelector("#charac_count")
+// Отримуємо посилання на елемент текстового поля за допомогою ID
+const input_textarea = document.querySelector("#input-textarea");
 
+// Отримуємо посилання на елемент для відображення кількості слів за допомогою ID
+const word_count = document.querySelector("#word-count");
+
+// Отримуємо посилання на елемент для відображення кількості символів за допомогою ID
+const charac_count = document.querySelector("#charac-count");
+
+// Функція для підрахунку кількості символів та слів
 function count() {
-    const value_text = input_textarea.value
-    const text_length = value_text.length
-    const words = value_text.match(/([a-z]|\d)([\s|.|,|:|?|!|;|"|']|([a-z]|\d)$)/gm)
-    const words_count = words.length
+    // Отримуємо значення тексту з текстового поля
+    const value_text = input_textarea.value;
 
-    console.log(text_length, words_count)
+    // Визначаємо довжину тексту (кількість символів)
+    const text_length = value_text.length;
 
-    charac_count.innerHTML = `${text_length}`
-    word_count.innerHTML = `${word_count}`
+    // Обрізаємо пробіли з початку і кінця тексту
+    let new_value_text = value_text.trim();
+
+    // Видаляємо всі розділові знаки з тексту
+    new_value_text = value_text.replace(/[.,!?"'=_`~:—;*%#@$&^*+(){}«»-]/g, "");
+
+    // Розбиваємо текст на масив слів, використовуючи пробіли як роздільники
+    let words = new_value_text.trim().split(' ');
+
+    // Видаляємо останній елемент масиву, якщо він порожній (якщо текст закінчується пробілом)
+    if (words[words.length - 1] == "") {
+        words.splice(words.length - 1, words.length - 1);
+    }
+
+    // Визначаємо кількість слів
+    const words_count = words.length;
+
+    // Відображаємо кількість символів у відповідному елементі HTML
+    charac_count.innerHTML = text_length;
+
+    // Відображаємо кількість слів у відповідному елементі HTML
+    word_count.innerHTML = words_count;
 }
 
-input_textarea.oninput = count
-
+// Викликаємо функцію count щоразу, коли користувач вводить текст у textarea
+input_textarea.oninput = count;
